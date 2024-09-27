@@ -1,16 +1,14 @@
-import './App.css'
-
-import { createBrowserRouter } from "react-router-dom";
-
+import './App.css';
+import { createBrowserRouter} from 'react-router-dom';
 import Layout from './templates/Layout';
 import Home from './views/Home';
 import NoPage from './views/NoPage';
 import Login from './views/Login';
 import CardapioYupFormik from './views/CardapioYupFormik';
+import ClienteYupFormik from './views/ClienteYupFormik';
 
-const Router = createBrowserRouter([
-  {
-    path: "/",
+const router = createBrowserRouter([{
+  path: "/",
     element: <Layout />,
     errorElement: <NoPage />,
     children: [
@@ -25,8 +23,12 @@ const Router = createBrowserRouter([
       {
         path: "login",
         element: <Login />,
-      }
+      },
+      {
+        path: "cliente",
+        element: <ClienteYupFormik/>,
+      },
     ]
-  }
-]);
-export default Router;
+}])
+
+export default router;
