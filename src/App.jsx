@@ -1,24 +1,32 @@
-import './App.css';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import './App.css'
+
+import { createBrowserRouter } from "react-router-dom";
+
 import Layout from './templates/Layout';
 import Home from './views/Home';
 import NoPage from './views/NoPage';
-import Cardapio from './views/Cardapio';
 import Login from './views/Login';
+import CardapioYupFormik from './views/CardapioYupFormik';
 
-function App() {
-  return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route index element={<Home />} />
-          <Route path="cardapio" element={<Cardapio />} />
-          <Route path="login" element={<Login />} />
-          <Route path="*" element={<NoPage />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
-  );
-}
-
-export default App;
+const Router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Layout />,
+    errorElement: <NoPage />,
+    children: [
+      {
+        path: "/",
+        element: <Home/>,
+      },
+      {
+        path: "cardapio",
+        element: <CardapioYupFormik />,
+      },
+      {
+        path: "login",
+        element: <Login />,
+      }
+    ]
+  }
+]);
+export default Router;
