@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
-import { Button, Form, Modal, Table } from 'react-bootstrap';
+import { Button, Form, Modal } from 'react-bootstrap';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
+import ClientesTable from '../components/ClientesTable';
 
 const ClienteYupFormik = () => {
-  // Validação dos campos do formulário
+  
   const schema = Yup.object().shape({
     nome: Yup.string().trim().min(3, 'Nome muito curto').max(50, 'Nome muito longo').required('Nome é obrigatório'),
     email: Yup.string().email('E-mail inválido').required('E-mail é obrigatório'),
@@ -12,36 +13,33 @@ const ClienteYupFormik = () => {
     cep: Yup.string().matches(/^\d{5}-\d{3}$/, 'CEP inválido').required('CEP é obrigatório'),
   });
 
-  let [clientes, setClientes] = useState([]);
+  const [clientes, setClientes] = useState([]);
   const [show, setShow] = useState(false);
 
   const handleShow = () => setShow(!show);
 
-  let formData = {
+  const formDataClientes = {
     nome: '',
     email: '',
     nascimento: '',
     cep: '',
   };
 
-  // Carrega a lista de clientes ao montar o componente
   useEffect(() => {
     console.log('Carregando clientes!');
     fetch('http://localhost:3000/clientes', { method: 'GET' })
       .then((res) => res.json())
       .then((data) => {
-        setClientes([...data]);
+        setClientes(data); // use o array diretamente
       })
       .catch((error) => {
         console.log('Erro ao carregar clientes', error);
       });
   }, []);
 
-  // Função para manipular o envio dos dados
   const handleSubmit = (values) => {
     let novoCliente = { ...values };
 
-    // Envia os dados para o backend
     fetch('http://localhost:3000/clientes', {
       method: 'POST',
       body: JSON.stringify(novoCliente),
@@ -49,10 +47,11 @@ const ClienteYupFormik = () => {
         'Content-Type': 'application/json',
       },
     })
-      .then((response) => {
-        console.log('Cliente cadastrado com sucesso!');
-        setClientes([...clientes, novoCliente]);
-        setShow(false); // Fecha o modal
+      .then((response) => response.json()) // Certifique-se de que a resposta é convertida para JSON
+      .then((data) => {
+        console.log('Cliente cadastrado com sucesso!', data);
+        setClientes([...clientes, data]); // Adiciona o cliente cadastrado à lista
+        setShow(false); 
       })
       .catch((error) => {
         console.log('Erro ao cadastrar cliente!', error);
@@ -60,7 +59,7 @@ const ClienteYupFormik = () => {
   };
 
   const formik = useFormik({
-    initialValues: formData,
+    initialValues: formDataClientes,
     validationSchema: schema,
     onSubmit: handleSubmit,
   });
@@ -68,71 +67,60 @@ const ClienteYupFormik = () => {
   return (
     <>
       <Button className="m-2" variant="primary" onClick={handleShow}>
-        Adicionar Cliente
+        +
       </Button>
 
-      <ClienteTable clientes={clientes}></ClienteTable>
+      <ClientesTable clientes={clientes}></ClientesTable>
 
-      {/* Modal para adicionar cliente */}
       <Modal show={show} onHide={handleShow}>
         <Modal.Header closeButton>
-          <Modal.Title>Adicionar Cliente</Modal.Title>
+          <Modal.Title>Cadastro Cliente</Modal.Title>
         </Modal.Header>
         <Form onSubmit={formik.handleSubmit}>
           <Modal.Body>
-            {/* Nome */}
             <Form.Group className="mb-3" controlId="formNome">
               <Form.Label>Nome</Form.Label>
               <Form.Control
+                onChange={formik.handleChange}
                 type="text"
                 placeholder="Digite o nome"
                 name="nome"
-                onChange={formik.handleChange}
-                value={formik.values.nome}
-                isInvalid={formik.touched.nome && formik.errors.nome}
+                value={formik.values.nome} // Adiciona o valor atual do campo
               />
-              <Form.Control.Feedback type="invalid">{formik.errors.nome}</Form.Control.Feedback>
+              <span>{formik.errors.nome}</span>
             </Form.Group>
-
-            {/* E-mail */}
             <Form.Group className="mb-3" controlId="formEmail">
               <Form.Label>E-mail</Form.Label>
               <Form.Control
-                type="email"
-                placeholder="Digite o e-mail"
-                name="email"
                 onChange={formik.handleChange}
-                value={formik.values.email}
-                isInvalid={formik.touched.email && formik.errors.email}
+                type="text"
+                placeholder="Digite o email"
+                name="email"
+                value={formik.values.email} // Adiciona o valor atual do campo
               />
-              <Form.Control.Feedback type="invalid">{formik.errors.email}</Form.Control.Feedback>
+              <span>{formik.errors.email}</span>
             </Form.Group>
-
-            {/* Data de nascimento */}
             <Form.Group className="mb-3" controlId="formNascimento">
               <Form.Label>Data de Nascimento</Form.Label>
               <Form.Control
-                type="date"
-                name="nascimento"
                 onChange={formik.handleChange}
-                value={formik.values.nascimento}
-                isInvalid={formik.touched.nascimento && formik.errors.nascimento}
+                type="date"
+                placeholder="Digite a data de nascimento"
+                name="nascimento" // Corrigido para "nascimento"
+                value={formik.values.nascimento} // Adiciona o valor atual do campo
               />
-              <Form.Control.Feedback type="invalid">{formik.errors.nascimento}</Form.Control.Feedback>
+              <span>{formik.errors.nascimento}</span>
             </Form.Group>
-
-            {/* CEP */}
             <Form.Group className="mb-3" controlId="formCep">
               <Form.Label>CEP</Form.Label>
               <Form.Control
-                type="text"
-                placeholder="Digite o CEP"
-                name="cep"
                 onChange={formik.handleChange}
-                value={formik.values.cep}
-                isInvalid={formik.touched.cep && formik.errors.cep}
+                type="text"
+                placeholder="Digite o CEP."
+                name="cep" // Corrigido para "cep"
+                value={formik.values.cep} // Adiciona o valor atual do campo
               />
-              <Form.Control.Feedback type="invalid">{formik.errors.cep}</Form.Control.Feedback>
+              <span>{formik.errors.cep}</span>
             </Form.Group>
           </Modal.Body>
           <Modal.Footer>
@@ -147,6 +135,6 @@ const ClienteYupFormik = () => {
       </Modal>
     </>
   );
-};
+}
 
 export default ClienteYupFormik;

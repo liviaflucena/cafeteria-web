@@ -1,0 +1,62 @@
+{
+  "produtos": [
+    {
+      "id": "1",
+      "imagemUrl": "https://images.unsplash.com/photo-1532499016263-f2c3e89de9cd?q=80&w=1760&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "titulo": "Cookie",
+      "descricao": "Feito de cacau 100%.",
+      "valor": "10.0"
+    },
+    {
+      "id": "2",
+      "imagemUrl": "https://images.unsplash.com/photo-1624128082323-beb6b8b508db?q=80&w=1965&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "titulo": "Patel de forno",
+      "descricao": "Feito com frango da Bom Todo.",
+      "valor": "5.0"
+    },
+    {
+      "id": "3",
+      "imagemUrl": "https://images.unsplash.com/photo-1525385133512-2f3bdd039054?q=80&w=2570&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "titulo": "Suco de Laranja",
+      "descricao": "Feita com laranjas de colhetas tardias.",
+      "valor": "2.0"
+    },
+    {
+      "id": "e212",
+      "titulo": "Coca",
+      "descricao": "gelada",
+      "valor": "7.0",
+      "imagemUrl": "https://andinacocacola.vtexassets.com/arquivos/ids/157655/110289_COCA---CCO250ml.jpg?v=638404085139630000"
+    }
+  ],
+  "clientes": [
+    {
+      "id": "1",
+      "nome": "Livia",
+      "email": "livia@gmail.com",
+      "nascimento": "08/02/2004",
+      "cep": "58200-000"
+    },
+    {
+      "id": "2",
+      "nome": "Roberta",
+      "email": "roberta@gmail.com",
+      "nascimento": "25/09/1969",
+      "cep": "58200-000"
+    },
+    {
+      "id": "3",
+      "nome": "Sergio",
+      "email": "sergio@gmail.com",
+      "nascimento": "18/12/1967",
+      "cep": "58200-000"
+    },
+    {
+      "id": "152b",
+      "nome": "leticia",
+      "email": "leticia@gmail.com",
+      "nascimento": "1996-12-18",
+      "cep": "58200-000"
+    }
+  ]
+}
